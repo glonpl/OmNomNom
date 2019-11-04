@@ -19,7 +19,7 @@ Java/Kotlin, Android Studio, SQLite, Trello, Github
 
 ## plan (harmonogram) prac nad projektem
 
-- [ ] 08.11.2019
+- [x] 08.11.2019
 utworzenie działającej aplikacji, szkielet aplikacji, menu
 zaprojektowanie wyglądu aplikacji
 
