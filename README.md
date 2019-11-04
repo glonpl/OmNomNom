@@ -13,9 +13,9 @@ Statystyki spożytych kalorii, ustawianie limitu na dzień
 Java/Kotlin, Android Studio, SQLite, Trello, Github
 
 ## podział na role i zakres obowiązków poszczególnych osób w projekcie
-  -Iwona - utworzenie bazy, dodawanie przepisów
-  -Bartosz - przelicznik miar
-  -Gabriel - śledzenie ilości spożytych kalorii
+  * Iwona - utworzenie bazy, dodawanie przepisów
+  * Bartosz - przelicznik miar
+  * Gabriel - śledzenie ilości spożytych kalorii
 
 ## plan (harmonogram) prac nad projektem
 
