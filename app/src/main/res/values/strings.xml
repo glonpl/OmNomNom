@@ -3,4 +3,7 @@
     <string name="title_recepies">Przepisy</string>
     <string name="title_converter">Przelicznik</string>
     <string name="title_calories">Kalorie</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
