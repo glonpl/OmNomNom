@@ -15,8 +15,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_STEP =
             "CREATE TABLE Step (id INTEGER PRIMARY KEY," +
-                    "name TEXT" +
-                    "number INTEGER" +
+                    "name TEXT," +
+                    "number INTEGER," +
                     "recipe_id INTEGER)";
 
     private static final String SQL_DELETE_RECIPE =
