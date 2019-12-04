@@ -3,23 +3,24 @@ package p.l.omnomnom;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 
+import p.l.omnomnom.converter.ConverterFragment;
 import p.l.omnomnom.recipe.Recipe;
 import p.l.omnomnom.recipe.RecipeAdapter;
+import p.l.omnomnom.recipe.RecipeFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnFragmentInteractionListener,
 ConverterFragment.OnFragmentInteractionListener{
@@ -35,12 +36,14 @@ ConverterFragment.OnFragmentInteractionListener{
             switch (item.getItemId()) {
                 case R.id.navigation_home:
 //                    mTextMessage.setText(R.string.title_recepies);
-                    fragment = new RecipeFragment();
+                    // fragment = new RecipeFragment();
+                    fragment = RecipeFragment.newInstance("jakis", "string");
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_dashboard:
 //                    mTextMessage.setText(R.string.title_converter);
-                    fragment = new ConverterFragment();
+                    // fragment = new ConverterFragment();
+                    fragment = ConverterFragment.newInstance("cos", "costam");
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_notifications:

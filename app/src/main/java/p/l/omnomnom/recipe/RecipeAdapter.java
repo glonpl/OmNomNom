@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import p.l.omnomnom.DatabaseHelper;
+import p.l.omnomnom.helpers.DatabaseHelper;
 
 public class RecipeAdapter {
 

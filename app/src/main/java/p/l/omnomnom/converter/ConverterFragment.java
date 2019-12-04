@@ -1,14 +1,15 @@
-package p.l.omnomnom;
+package p.l.omnomnom.converter;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import p.l.omnomnom.R;
 
 
 /**
@@ -30,6 +31,7 @@ public class ConverterFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
 
     public ConverterFragment() {
         // Required empty public constructor
@@ -60,6 +62,8 @@ public class ConverterFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
