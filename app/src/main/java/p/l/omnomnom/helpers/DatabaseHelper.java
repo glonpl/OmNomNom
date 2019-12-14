@@ -1,4 +1,4 @@
-package p.l.omnomnom;
+package p.l.omnomnom.helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

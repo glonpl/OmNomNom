@@ -1,25 +1,26 @@
-package p.l.omnomnom;
+package p.l.omnomnom.recipe;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import p.l.omnomnom.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ConverterFragment.OnFragmentInteractionListener} interface
+ * {@link RecipeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ConverterFragment#newInstance} factory method to
+ * Use the {@link RecipeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConverterFragment extends Fragment {
+public class RecipeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +32,11 @@ public class ConverterFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ConverterFragment() {
+    public void setOnHeadlineSelectedListener(OnFragmentInteractionListener onFragmentInteractionListener){
+        mListener = onFragmentInteractionListener;
+    }
+
+    public RecipeFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +46,11 @@ public class ConverterFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ConverterFragment.
+     * @return A new instance of fragment RecipeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ConverterFragment newInstance(String param1, String param2) {
-        ConverterFragment fragment = new ConverterFragment();
+    public static RecipeFragment newInstance(String param1, String param2) {
+        RecipeFragment fragment = new RecipeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +71,7 @@ public class ConverterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_converter, container, false);
+        return inflater.inflate(R.layout.fragment_recipe, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,4 +112,5 @@ public class ConverterFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
