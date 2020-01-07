@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -144,6 +146,19 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         Intent intent = new Intent(this, DisplayMessageActivity.class);
 
         intent.putExtra(EXTRA_MESSAGE, string);
+        startActivity(intent);
+    }
+
+    public void addRecipe(View view){
+//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        List<Recipe> recipes = recipeAdapter.getAllRecipes();
+//        String string = "";
+//        for (Recipe recipe : recipes) {
+//            string += recipe.getName() + "\n";
+//        }
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+
+//        intent.putExtra(EXTRA_MESSAGE, string);
         startActivity(intent);
     }
 

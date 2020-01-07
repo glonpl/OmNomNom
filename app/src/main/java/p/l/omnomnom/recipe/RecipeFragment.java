@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import p.l.omnomnom.R;
 
@@ -29,6 +33,7 @@ public class RecipeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ArrayList<Recipe> recipes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,8 +75,20 @@ public class RecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.fragment_recipe, container, false);
+        RecyclerView rvContacts = (RecyclerView) v.findViewById(R.id.list);
+
+        // Initialize contacts
+        recipes = Recipe.createRecipesList(20);
+        // Create adapter passing in the sample user data
+        RecipeAdapter adapter = new RecipeAdapter(this.getContext());
+        // Attach the adapter to the recyclerview to populate items
+        rvContacts.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvContacts.setLayoutManager(new LinearLayoutManager(this.getContext()));
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false);
+//        return inflater.inflate(R.layout.fragment_recipe, container, false);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

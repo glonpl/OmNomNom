@@ -1,5 +1,7 @@
 package p.l.omnomnom.recipe;
 
+import java.util.ArrayList;
+
 public class Recipe {
     private int id;
     private String name;
@@ -31,5 +33,15 @@ public class Recipe {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static ArrayList<Recipe> createRecipesList(int numContacts) {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+
+        for (int i = 1; i <= numContacts; i++) {
+            recipes.add(new Recipe("Nazwa " + i));
+        }
+
+        return recipes;
     }
 }
