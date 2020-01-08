@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +27,11 @@ import p.l.omnomnom.recipe.RecipeAdapter;
 import p.l.omnomnom.recipe.RecipeFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnFragmentInteractionListener,
-        ConverterFragment.OnFragmentInteractionListener {
+        ConverterFragment.OnFragmentInteractionListener
+{
     static final String EXTRA_MESSAGE = "message";
     Fragment fragment;
+    RecipeAdapter adapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -150,15 +153,21 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     public void addRecipe(View view){
-//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+        //RecipeAdapter recipeAdapter = new RecipeAdapter(this);
 //        List<Recipe> recipes = recipeAdapter.getAllRecipes();
 //        String string = "";
 //        for (Recipe recipe : recipes) {
 //            string += recipe.getName() + "\n";
 //        }
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        Intent intent = new Intent(this, AddRecipeActivity.class);
 
 //        intent.putExtra(EXTRA_MESSAGE, string);
+        startActivity(intent);
+    }
+
+    public void showRecipe(View view){
+        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+
         startActivity(intent);
     }
 
@@ -168,4 +177,12 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
+
+//    @Override
+//    public void onItemClick(View view, int position) {
+//        adapter = new RecipeAdapter(this);
+//        adapter.setClickListener(this);
+//        //recyclerView.setAdapter(adapter);
+//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+//    }
 }

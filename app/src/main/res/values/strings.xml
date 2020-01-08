@@ -7,4 +7,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_recipe">AddRecipeActivity</string>
+    <string name="title_recipeactivity_list">Items</string>
+    <string name="title_recipeactivity_detail">RecipeActivity Detail</string>
+    <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
 </resources>

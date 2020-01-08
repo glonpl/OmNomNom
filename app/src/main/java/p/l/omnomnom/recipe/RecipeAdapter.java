@@ -2,6 +2,7 @@ package p.l.omnomnom.recipe;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -16,17 +17,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import p.l.omnomnom.MainActivity;
 import p.l.omnomnom.R;
+import p.l.omnomnom.RecipeDetailsActivity;
 import p.l.omnomnom.helpers.DatabaseHelper;
 
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     DatabaseHelper helper;
+//    private ItemClickListener mClickListener;
+    private RecyclerView mRecyclerView;
     public RecipeAdapter(Context context)
     {
         helper = new DatabaseHelper(context);
         recipes = getAllRecipes();
+    }
+
+    public RecipeAdapter(Context context, RecyclerView view)
+    {
+        helper = new DatabaseHelper(context);
+        recipes = getAllRecipes();
+        mRecyclerView = view;
     }
 
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes)
@@ -70,14 +82,35 @@ public class RecipeAdapter extends
         return recipeList;
     }
 
+    public Recipe getItem(int id) {
+        return recipes.get(id);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        final Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.item_recipe, parent, false);
+
+        contactView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // odnajdujemy indeks klikniętego elementu
+                int positionToDelete = mRecyclerView.getChildAdapterPosition(v);
+                // usuwamy element ze źródła danych
+                Recipe recipe = recipes.get(positionToDelete);
+                //recipes.remove(positionToDelete);
+                // poniższa metoda w animowany sposób usunie element z listy
+                //notifyItemRemoved(positionToDelete);
+
+                Intent intent = new Intent(context, RecipeDetailsActivity.class);
+
+                context.startActivity(intent);
+            }
+        });
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
@@ -117,5 +150,19 @@ public class RecipeAdapter extends
             nameTextView = (TextView) itemView.findViewById(R.id.recipe_name);
             messageButton = (Button) itemView.findViewById(R.id.recipe_button);
         }
+
+//        @Override
+//        public void onClick(View v) {
+//            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());
+//        }
     }
+
+//    public void setClickListener(ItemClickListener itemClickListener) {
+//        this.mClickListener = itemClickListener;
+//    }
+
+    // parent activity will implement this method to respond to click events
+//    public interface ItemClickListener {
+//        void onItemClick(View view, int position);
+//    }
 }

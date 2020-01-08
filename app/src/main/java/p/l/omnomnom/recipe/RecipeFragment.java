@@ -81,7 +81,7 @@ public class RecipeFragment extends Fragment {
         // Initialize contacts
         recipes = Recipe.createRecipesList(20);
         // Create adapter passing in the sample user data
-        RecipeAdapter adapter = new RecipeAdapter(this.getContext());
+        RecipeAdapter adapter = new RecipeAdapter(this.getContext(), rvContacts);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
         // Set layout manager to position the items
