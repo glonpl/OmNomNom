@@ -1,18 +1,18 @@
 package p.l.omnomnom.igredient;
 
-public class Igredient {
+public class Ingredient {
     private int id;
     private String name;
 
-    public Igredient(){
+    public Ingredient(){
 
     }
 
-    public Igredient(String name){
+    public Ingredient(String name){
         this.name = name;
     }
 
-    public Igredient(int id, String name){
+    public Ingredient(int id, String name){
         this.id = id;
         this.name = name;
     }

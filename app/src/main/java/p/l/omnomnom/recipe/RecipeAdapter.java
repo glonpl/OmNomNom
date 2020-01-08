@@ -107,7 +107,7 @@ public class RecipeAdapter extends
                 //notifyItemRemoved(positionToDelete);
 
                 Intent intent = new Intent(context, RecipeDetailsActivity.class);
-
+                intent.putExtra("recipeId", positionToDelete);
                 context.startActivity(intent);
             }
         });
@@ -124,8 +124,8 @@ public class RecipeAdapter extends
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(recipe.getName());
-        Button button = holder.messageButton;
-        button.setText("Pokaż");
+        //Button button = holder.messageButton;
+        //button.setText("Pokaż");
         //button.setEnabled(contact.isOnline());
     }
 
@@ -148,7 +148,7 @@ public class RecipeAdapter extends
             super(itemView);
 
             nameTextView = (TextView) itemView.findViewById(R.id.recipe_name);
-            messageButton = (Button) itemView.findViewById(R.id.recipe_button);
+            //messageButton = (Button) itemView.findViewById(R.id.recipe_button);
         }
 
 //        @Override
