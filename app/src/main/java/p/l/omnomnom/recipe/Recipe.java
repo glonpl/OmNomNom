@@ -1,7 +1,10 @@
 package p.l.omnomnom.recipe;
 
-public class Recipe {
-    private int id;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Recipe implements Serializable {
+    private long id;
     private String name;
 
     public Recipe(){
@@ -12,16 +15,16 @@ public class Recipe {
         this.name = name;
     }
 
-    public Recipe(int id, String name){
+    public Recipe(long id, String name){
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,5 +34,15 @@ public class Recipe {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static ArrayList<Recipe> createRecipesList(int numContacts) {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+
+        for (int i = 1; i <= numContacts; i++) {
+            recipes.add(new Recipe("Nazwa " + i));
+        }
+
+        return recipes;
     }
 }

@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".recipe.RecipeFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_recepies" />
-
-    <TextView
-        android:id="@+id/recipeNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nazwa" />
-
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
     <Button
-        android:id="@+id/show"
-        android:layout_width="wrap_content"
+        android:id="@+id/addRecipe"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="showAll"
-        android:text="Pokaż" />
+        android:onClick="addRecipe"
+        android:text="Dodaj" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+
+    <SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="sendMessage"
-        android:text="Zapisz" />
+        android:clickable="true" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:isScrollContainer="true"
+            android:measureAllChildren="true"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="412dp"
+                    android:layout_height="566dp"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </LinearLayout>

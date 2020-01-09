@@ -23,11 +23,11 @@ Java/Kotlin, Android Studio, SQLite, Trello, Github
 utworzenie działającej aplikacji, szkielet aplikacji, menu
 zaprojektowanie wyglądu aplikacji
 
-- [ ] 22.11.2019 
+- [x] 22.11.2019 
 utworzenie bazy danych
 działające dodawanie/edytowanie przepisów
 sztuczki w kuchni oraz przeliczanie miar
 
-- [ ] 6.12.2019
+- [x] 6.12.2019
 wyszukiwanie przepisów
 śledzenie ilości spożytych kalorii
