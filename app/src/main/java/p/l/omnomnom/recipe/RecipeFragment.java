@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,9 +93,16 @@ public class RecipeFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         final View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         RecyclerView rvContacts = (RecyclerView) v.findViewById(R.id.list);
         rvContacts.setNestedScrollingEnabled(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvContacts.getContext(),
+                layoutManager.getOrientation());
+        rvContacts.addItemDecoration(dividerItemDecoration);
 
         // Initialize contacts
         //recipes = Recipe.createRecipesList(20);
