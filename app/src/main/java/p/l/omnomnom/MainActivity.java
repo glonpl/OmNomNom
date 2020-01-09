@@ -166,12 +166,6 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         startActivity(intent);
     }
 
-//    public void showRecipe(View view){
-//        Intent intent = new Intent(this, RecipeDetailsActivity.class);
-//
-//        startActivity(intent);
-//    }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
@@ -179,25 +173,4 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
-//    @Override
-//    public boolean onQueryTextSubmit(String query) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String newText) {
-//        String text = newText;
-//        adapter.filter(text);
-//        adapter.notifyDataSetChanged();
-//
-//        return false;
-//    }
-
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        adapter = new RecipeAdapter(this);
-//        adapter.setClickListener(this);
-//        //recyclerView.setAdapter(adapter);
-//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-//    }
 }

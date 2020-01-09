@@ -13,13 +13,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientAdapter;
 import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
@@ -61,14 +59,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         spin.setAdapter(aa);
 
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     NumberPicker.OnValueChangeListener onValueChangeListener =
@@ -144,17 +134,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         l.addView(s);
         l.addView(t);
 
-
-
-        //TextView txtName = new TextView(this);
-        //txtName.setLayoutParams(params);
-        //params.setMargins(10, 10, 10, 10);
-
-        //txtName.setId(28);
-        //LinearLayout linearlayout = new LinearLayout(this);
-        //txtName.setText("new text");
-//
-        //linearlayout.addView(txtName);
         layout.addView(l);
 
         params.height = 100 * getIngredientsNumber();
@@ -183,10 +162,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
 
         l.addView(t);
 
-        //TextView txtName = new TextView(this);
-        //txtName.setId(28);
-        //LinearLayout linearlayout = new LinearLayout(this);
-        //txtName.setText("new text");
         stepsCount++;
         params.height = 100 * getStepsNumber();
 

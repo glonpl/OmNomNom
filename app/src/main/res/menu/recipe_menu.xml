@@ -5,7 +5,7 @@
     <item
         android:id="@+id/edit_recipe"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="Edyduj" />
+        android:title="Edytuj" />
     <item
         android:id="@+id/delete_recipe"
         android:icon="@android:drawable/ic_menu_delete"

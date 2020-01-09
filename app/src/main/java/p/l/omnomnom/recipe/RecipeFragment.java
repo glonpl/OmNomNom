@@ -115,29 +115,6 @@ public class RecipeFragment extends Fragment implements
         editsearch = (SearchView) v.findViewById(R.id.search);
         editsearch.setOnQueryTextListener(this);
 
-//        editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                String text = query;
-//                adapter.filter(text);
-//                adapter.notifyDataSetChanged();
-//                return false;
-//
-////                if(list.contains(query)){
-////                    adapter.getFilter().filter(query);
-////                }else{
-////                    Toast.makeText(MainActivity.this, "No Match found",Toast.LENGTH_LONG).show();
-////                }
-////                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //    adapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

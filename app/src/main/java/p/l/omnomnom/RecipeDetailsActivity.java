@@ -3,17 +3,12 @@ package p.l.omnomnom;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -49,25 +44,19 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
             List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
             StringBuilder napis = new StringBuilder();
-            napis.append(recipe.getName());
+            napis.append(recipe.getName()).append(" \n");
             for (Step s : steps) {
-                napis.append(s.getName()+ " \n");
+                napis.append(s.getName()).append(" \n");
             }
             for (IngredientInRecipe s : ingredients) {
-                napis.append(s.getIngredientId() + " ");
-                napis.append(s.getRecipeId() + " ");
-                napis.append(s.getAmount() + " \n");
+                napis.append(s.getIngredientId()).append(" ");
+                napis.append(s.getRecipeId()).append(" ");
+                napis.append(s.getAmount()).append(" \n");
             }
 
 
             textView.setText("przepis " + napis);
         }
-
-        //String message = intent.getStringExtra("recipeId");
-
-        // Capture the layout's TextView and set the string as its text
-//        TextView textView = findViewById(R.id.textView);
-//        textView.setText("przepis " + message);
     }
 
     @Override
@@ -80,14 +69,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.edit_recipe:
                 //Todo EDYCJA
-                //editRecipe();
+                //adapter.editRecipe();
+                intent = new Intent(this, AddRecipeActivity.class);
+                this.startActivity(intent);
                 return true;
             case R.id.delete_recipe:
                 adapter.removeRecipe(recipe.getId());
-                Intent intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, MainActivity.class);
                 this.startActivity(intent);
                 return true;
             default:

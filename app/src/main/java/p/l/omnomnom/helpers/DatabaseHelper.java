@@ -1,6 +1,5 @@
 package p.l.omnomnom.helpers;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "OmNomNom2.db";
+    public static final String DATABASE_NAME = "OmNomNom3.db";
 
     private static final String SQL_CREATE_RECIPE =
             "CREATE TABLE Recipe (id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -75,17 +74,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void loadIngredients(SQLiteDatabase db){
         db.execSQL("INSERT INTO Ingredient (name) VALUES('Jajka');");
+        db.execSQL("INSERT INTO Ingredient (name) VALUES('Mąka');");
+        db.execSQL("INSERT INTO Ingredient (name) VALUES('Cukier');");
     }
 
     public void loadRecipes(SQLiteDatabase db){
-        db.execSQL("INSERT INTO Recipe (name) VALUES('AAAA');");
+        db.execSQL("INSERT INTO Recipe (name) VALUES('Jajecznica');");
     }
 
     public void loadSteps(SQLiteDatabase db){
-        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('asdas', 1, 1);");
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Na patelni rozpuszczamy masło', 1, 1);");
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Wbijamy jajka na patelnię', 2, 1);");
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Przyprawiamy', 3, 1);");
     }
 
     public void loadIngredientRecipes(SQLiteDatabase db){
-        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(1, 1, 10);");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(1, 1, 3);");
     }
 }
