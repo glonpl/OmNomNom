@@ -27,9 +27,13 @@ public class AddRecipeActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
     String[] ingredients2 = { "Jajka", "Mąka", "Sól"};
     List<String> ingredients;
+    int ingredientsCount = 0;
+    int stepsCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ingredientsCount = 1;
+        stepsCount = 1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -95,33 +99,71 @@ public class AddRecipeActivity extends AppCompatActivity implements
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        TextView txtName = new TextView(this);
-        txtName.setLayoutParams(params);
-        params.setMargins(10, 10, 10, 10);
+        LinearLayout l = new LinearLayout(this);
+        Spinner s = new Spinner(this, Spinner.MODE_DIALOG);
+        s.setOnItemSelectedListener(this);
+        IngredientAdapter ingredientAdapter = new IngredientAdapter(this);
+        ingredients = ingredientAdapter.getAllIngredientsNames();
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,ingredients);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(aa);
+
+
+        EditText t = new EditText(this);
+        t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        l.addView(s);
+        l.addView(t);
+
+
+
+        //TextView txtName = new TextView(this);
+        //txtName.setLayoutParams(params);
+        //params.setMargins(10, 10, 10, 10);
 
         //txtName.setId(28);
         //LinearLayout linearlayout = new LinearLayout(this);
-        txtName.setText("new text");
+        //txtName.setText("new text");
 //
         //linearlayout.addView(txtName);
-        layout.addView(txtName);
+        layout.addView(l);
 
-        params.height = 100;
-        params.width = 100;
+        params.height = 100 * getIngredientsNumber();
+        ingredientsCount++;
         layout.setLayoutParams(params);
     }
 
+    public int getIngredientsNumber(){
+        return ingredientsCount;
+    }
+
+    public int getStepsNumber(){
+        return stepsCount;
+    }
+
+    LinearLayout layout2;
     public void onAddStep(View view) {
 
-        layout = (LinearLayout)findViewById(R.id.linear);
+        layout2 = (LinearLayout)findViewById(R.id.linear2);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        TextView txtName = new TextView(this);
+        LinearLayout l = new LinearLayout(this);
+        EditText t = new EditText(this);
+        t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        l.addView(t);
+
+        //TextView txtName = new TextView(this);
         //txtName.setId(28);
-        LinearLayout linearlayout = new LinearLayout(this);
-        txtName.setText("new text");
+        //LinearLayout linearlayout = new LinearLayout(this);
+        //txtName.setText("new text");
+        stepsCount++;
+        params.height = 100 * getStepsNumber();
+
+        layout2.setLayoutParams(params);
 //
-        linearlayout.addView(txtName);
-        layout.addView(linearlayout);
+        layout2.addView(l);
     }
 
     @Override
