@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Recipe implements Serializable {
-    private int id;
+    private long id;
     private String name;
 
     public Recipe(){
@@ -15,16 +15,16 @@ public class Recipe implements Serializable {
         this.name = name;
     }
 
-    public Recipe(int id, String name){
+    public Recipe(long id, String name){
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

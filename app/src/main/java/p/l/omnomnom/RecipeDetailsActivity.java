@@ -13,9 +13,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
+import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
+import p.l.omnomnom.recipe.RecipeAdapter;
+import p.l.omnomnom.step.Step;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
@@ -27,8 +33,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //setTitle("aa");
-
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -38,8 +42,24 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             int j = (int) b.get("recipeId");
             Recipe a = (Recipe) b.getSerializable("edit");
             TextView textView = findViewById(R.id.textView);
-            textView.setText("przepis " + a.getName());
             setTitle(a.getName());
+
+            RecipeAdapter adapter = new RecipeAdapter(this);
+            List<Step> steps = adapter.getStepsByRecipeId(a.getId());
+            List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(a.getId());
+            StringBuilder napis = new StringBuilder();
+            napis.append(a.getName());
+            for (Step s : steps) {
+                napis.append(s.getName()+ " \n");
+            }
+            for (IngredientInRecipe s : ingredients) {
+                napis.append(s.getIngredientId() + " ");
+                napis.append(s.getRecipeId() + " ");
+                napis.append(s.getAmount() + " \n");
+            }
+
+
+            textView.setText("przepis " + napis);
         }
 
         //String message = intent.getStringExtra("recipeId");

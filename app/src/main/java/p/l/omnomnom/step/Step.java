@@ -1,33 +1,33 @@
 package p.l.omnomnom.step;
 
 public class Step {
-    private int id;
+    private long id;
     private String name;
     private int number;
-    private int recipeId;
+    private long recipeId;
 
     public Step(){
 
     }
 
-    public Step(String name, int number, int recipeId){
+    public Step(String name, int number, long recipeId){
         this.name = name;
         this.number = number;
         this.recipeId = recipeId;
     }
 
-    public Step(int id, String name, int number, int recipeId){
+    public Step(int id, String name, int number, long recipeId){
         this.id = id;
         this.name = name;
         this.number = number;
         this.recipeId = recipeId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -47,11 +47,11 @@ public class Step {
         this.number = number;
     }
 
-    public int getRecipeId() {
+    public long getRecipeId() {
         return recipeId;
     }
 
-    public void setRecipeId(int recipeId) {
+    public void setRecipeId(long recipeId) {
         this.recipeId = recipeId;
     }
 }

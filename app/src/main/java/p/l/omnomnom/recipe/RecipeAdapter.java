@@ -22,6 +22,9 @@ import p.l.omnomnom.MainActivity;
 import p.l.omnomnom.R;
 import p.l.omnomnom.RecipeDetailsActivity;
 import p.l.omnomnom.helpers.DatabaseHelper;
+import p.l.omnomnom.igredient.Ingredient;
+import p.l.omnomnom.igredient.IngredientInRecipe;
+import p.l.omnomnom.step.Step;
 
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
@@ -47,15 +50,45 @@ public class RecipeAdapter extends
     }
 
 
-    public void addRecipe(Recipe recipe){
+    public long addRecipe(Recipe recipe){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", recipe.getName()); // Contact Name
 
         // Inserting Row
-        db.insert("Recipe", null, values);
+        long id = db.insert("Recipe", null, values);
         //2nd argument is String containing nullColumnHack
         db.close(); // Closing database connection
+
+        return id;
+    }
+
+    public void addSteps(List<Step> steps){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for (Step s: steps) {
+            ContentValues values = new ContentValues();
+            values.put("name", s.getName());
+            values.put("number", s.getNumber());
+            values.put("recipe_id", s.getRecipeId());
+
+            long id = db.insert("Step", null, values);
+        }
+        db.close();
+    }
+
+    public void addIngredientsInRecipe(List<IngredientInRecipe> ingredients){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for (IngredientInRecipe i: ingredients) {
+            ContentValues values = new ContentValues();
+            values.put("recipe_id", i.getRecipeId());
+            values.put("ingredient_id", i.getIngredientId());
+            values.put("amount", i.getAmount());
+
+            long id = db.insert("Ingredient_Recipe", null, values);
+        }
+        db.close();
     }
 
     public List<Recipe> getAllRecipes(){
@@ -79,6 +112,52 @@ public class RecipeAdapter extends
 
         // return contact list
         return recipeList;
+    }
+
+    public List<Step> getStepsByRecipeId(long id){
+        List<Step> steps = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM Step WHERE recipe_id = ?";
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {String.valueOf(id)});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Step step = new Step();
+                step.setId(Integer.parseInt(cursor.getString(0)));
+                step.setName(cursor.getString(1));
+                // Adding contact to list
+                steps.add(step);
+            } while (cursor.moveToNext());
+        }
+
+        return steps;
+    }
+
+    public List<IngredientInRecipe> getIngredientsByRecipeId(long id){
+        List<IngredientInRecipe> ingredients = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM Ingredient_Recipe WHERE recipe_id = ?";
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {String.valueOf(id)});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                IngredientInRecipe ingredient = new IngredientInRecipe();
+                ingredient.setId(Integer.parseInt(cursor.getString(0)));
+                ingredient.setRecipeId(Integer.parseInt(cursor.getString(1)));
+                ingredient.setIngredientId(Integer.parseInt(cursor.getString(2)));
+                ingredient.setAmount(Integer.parseInt(cursor.getString(3)));
+                // Adding contact to list
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
+
+        return ingredients;
     }
 
     public List<Recipe> getRecipesByQuery(String query){

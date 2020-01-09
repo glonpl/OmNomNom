@@ -16,12 +16,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientAdapter;
+import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
 import p.l.omnomnom.recipe.RecipeAdapter;
+import p.l.omnomnom.step.Step;
 
 public class AddRecipeActivity extends AppCompatActivity implements  
         AdapterView.OnItemSelectedListener {
@@ -78,11 +81,37 @@ public class AddRecipeActivity extends AppCompatActivity implements
             };
 
     public void onAddRecipe(View view) {
-        EditText editText = findViewById(R.id.editTextName);
-        String recipeName = editText.getText().toString();
+        EditText editTextName = findViewById(R.id.editTextName);
+        String recipeName = editTextName.getText().toString();
+
+        EditText editTextTime = findViewById(R.id.editTextTime);
+        String recipeTime = editTextTime.getText().toString();
+
+        NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        int numberPickerValue = numberPicker.getValue();
+
+        Spinner spinner = findViewById(R.id.spinner);
+        int spinnerValue = spinner.getSelectedItemPosition();
+
+        EditText editTextIngredient = findViewById(R.id.editTextIgredientValue);
+        String recipeIngredientValue = editTextIngredient.getText().toString();
+
+        EditText editTextStep = findViewById(R.id.editTextStep);
+        String recipeStepValue = editTextStep.getText().toString();
 
         RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        recipeAdapter.addRecipe(new Recipe(recipeName));
+        long id = recipeAdapter.addRecipe(new Recipe(recipeName));
+
+        List<IngredientInRecipe> ingredients = new ArrayList<>();
+        IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1);
+        ingredients.add(ingredient);
+        recipeAdapter.addIngredientsInRecipe(ingredients);
+
+
+        List<Step> steps = new ArrayList<>();
+        Step step = new Step(recipeStepValue, 3, id);
+        steps.add(step);
+        recipeAdapter.addSteps(steps);
 
         Intent intent = new Intent(this, MainActivity.class);
 
