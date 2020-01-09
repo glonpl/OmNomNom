@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
+import p.l.omnomnom.MainActivity;
 import p.l.omnomnom.R;
 
 
@@ -27,7 +29,8 @@ import p.l.omnomnom.R;
  * Use the {@link RecipeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeFragment extends Fragment {
+public class RecipeFragment extends Fragment implements
+        SearchView.OnQueryTextListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +40,8 @@ public class RecipeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     ArrayList<Recipe> recipes;
+    SearchView editsearch;
+    RecipeAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,13 +96,42 @@ public class RecipeFragment extends Fragment {
         RecyclerView rvContacts = (RecyclerView) v.findViewById(R.id.list);
 
         // Initialize contacts
-        recipes = Recipe.createRecipesList(20);
+        //recipes = Recipe.createRecipesList(20);
         // Create adapter passing in the sample user data
-        RecipeAdapter adapter = new RecipeAdapter(this.getContext(), rvContacts);
+        adapter = new RecipeAdapter(this.getContext(), rvContacts);
         // Attach the adapter to the recyclerview to populate items
+
         rvContacts.setAdapter(adapter);
+
+        editsearch = (SearchView) v.findViewById(R.id.search);
+        editsearch.setOnQueryTextListener(this);
+
+//        editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                String text = query;
+//                adapter.filter(text);
+//                adapter.notifyDataSetChanged();
+//                return false;
+//
+////                if(list.contains(query)){
+////                    adapter.getFilter().filter(query);
+////                }else{
+////                    Toast.makeText(MainActivity.this, "No Match found",Toast.LENGTH_LONG).show();
+////                }
+////                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                //    adapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_recipe, container, false);
         return v;
@@ -125,6 +159,20 @@ public class RecipeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String text = newText;
+        adapter.filter(text);
+        adapter.notifyDataSetChanged();
+
+        return false;
     }
 
     /**

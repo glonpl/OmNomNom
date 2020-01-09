@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 {
     static final String EXTRA_MESSAGE = "message";
     Fragment fragment;
-    RecipeAdapter adapter;
+    public RecipeAdapter adapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        adapter = new RecipeAdapter(this);
         super.onCreate(savedInstanceState);
 
         layout_immersive_sticky(getWindow().getDecorView());
@@ -128,28 +129,28 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     public void sendMessage(View view) {
-        EditText editText = findViewById(R.id.nameEditText);
-        String recipeName = editText.getText().toString();
-
-        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        recipeAdapter.addRecipe(new Recipe(recipeName));
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-
-        intent.putExtra(EXTRA_MESSAGE, recipeName);
-        startActivity(intent);
+//        EditText editText = findViewById(R.id.nameEditText);
+//        String recipeName = editText.getText().toString();
+//
+//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        recipeAdapter.addRecipe(new Recipe(recipeName));
+//        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//
+//        intent.putExtra(EXTRA_MESSAGE, recipeName);
+//        startActivity(intent);
     }
 
     public void showAll(View view) {
-        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        List<Recipe> recipes = recipeAdapter.getAllRecipes();
-        String string = "";
-        for (Recipe recipe : recipes) {
-            string += recipe.getName() + "\n";
-        }
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-
-        intent.putExtra(EXTRA_MESSAGE, string);
-        startActivity(intent);
+//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        List<Recipe> recipes = recipeAdapter.getAllRecipes();
+//        String string = "";
+//        for (Recipe recipe : recipes) {
+//            string += recipe.getName() + "\n";
+//        }
+//        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//
+//        intent.putExtra(EXTRA_MESSAGE, string);
+//        startActivity(intent);
     }
 
     public void addRecipe(View view){
@@ -165,11 +166,11 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         startActivity(intent);
     }
 
-    public void showRecipe(View view){
-        Intent intent = new Intent(this, RecipeDetailsActivity.class);
-
-        startActivity(intent);
-    }
+//    public void showRecipe(View view){
+//        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+//
+//        startActivity(intent);
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -177,6 +178,20 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
+
+//    @Override
+//    public boolean onQueryTextSubmit(String query) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextChange(String newText) {
+//        String text = newText;
+//        adapter.filter(text);
+//        adapter.notifyDataSetChanged();
+//
+//        return false;
+//    }
 
 //    @Override
 //    public void onItemClick(View view, int position) {

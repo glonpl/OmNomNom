@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -82,6 +84,34 @@ public class AddRecipeActivity extends AppCompatActivity implements
 
         //intent.putExtra("", recipeName);
         startActivity(intent);
+    }
+
+    LinearLayout layout;
+
+    public void onAddIngredient(View view) {
+
+        layout = (LinearLayout)findViewById(R.id.linear);
+
+        TextView txtName = new TextView(this);
+        //txtName.setId(28);
+        LinearLayout linearlayout = new LinearLayout(this);
+        txtName.setText("new text");
+//
+        linearlayout.addView(txtName);
+        layout.addView(linearlayout);
+    }
+
+    public void onAddStep(View view) {
+
+        layout = (LinearLayout)findViewById(R.id.linear);
+
+        TextView txtName = new TextView(this);
+        //txtName.setId(28);
+        LinearLayout linearlayout = new LinearLayout(this);
+        txtName.setText("new text");
+//
+        linearlayout.addView(txtName);
+        layout.addView(linearlayout);
     }
 
     @Override

@@ -122,10 +122,17 @@
             android:inputType="textPersonName" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/linear"
+        android:layout_height="25dp"
+        android:orientation="vertical"></LinearLayout>
+
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonAddIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onAddIngredient"
         android:text="Dodaj składnik" />
 
     <LinearLayout
@@ -159,6 +166,7 @@
             android:id="@+id/button8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onAddStep"
             android:text="Dodaj krok" />
     </LinearLayout>
 

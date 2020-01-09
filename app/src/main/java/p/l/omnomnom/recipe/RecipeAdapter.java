@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import p.l.omnomnom.MainActivity;
 import p.l.omnomnom.R;
@@ -26,12 +27,16 @@ public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     DatabaseHelper helper;
+    List<Recipe> recipes;
 //    private ItemClickListener mClickListener;
     private RecyclerView mRecyclerView;
     public RecipeAdapter(Context context)
     {
         helper = new DatabaseHelper(context);
-        recipes = getAllRecipes();
+        Recipe r = new Recipe("aaaaaa");
+        recipes = new ArrayList<>();
+//        recipes = getAllRecipes();
+        recipes.add(r);
     }
 
     public RecipeAdapter(Context context, RecyclerView view)
@@ -41,12 +46,6 @@ public class RecipeAdapter extends
         mRecyclerView = view;
     }
 
-    public RecipeAdapter(Context context, ArrayList<Recipe> recipes)
-    {
-        helper = new DatabaseHelper(context);
-        this.recipes = recipes;
-    }
-    List<Recipe> recipes;
 
     public void addRecipe(Recipe recipe){
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -82,6 +81,29 @@ public class RecipeAdapter extends
         return recipeList;
     }
 
+    public List<Recipe> getRecipesByQuery(String query){
+        List<Recipe> recipeList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM Recipe WHERE lower(name) LIKE ?";
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {String.valueOf(query+"%")});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Recipe recipe = new Recipe();
+                recipe.setId(Integer.parseInt(cursor.getString(0)));
+                recipe.setName(cursor.getString(1));
+                // Adding contact to list
+                recipeList.add(recipe);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return recipeList;
+    }
+
     public Recipe getItem(int id) {
         return recipes.get(id);
     }
@@ -101,7 +123,7 @@ public class RecipeAdapter extends
                 // odnajdujemy indeks klikniętego elementu
                 int positionToDelete = mRecyclerView.getChildAdapterPosition(v);
                 // usuwamy element ze źródła danych
-                Recipe recipe = recipes.get(positionToDelete);
+                //Recipe recipe = recipes.get(positionToDelete);
                 //recipes.remove(positionToDelete);
                 // poniższa metoda w animowany sposób usunie element z listy
                 //notifyItemRemoved(positionToDelete);
@@ -115,6 +137,19 @@ public class RecipeAdapter extends
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        recipes.clear();
+        if (charText.length() == 0) {
+            recipes.addAll(getAllRecipes());
+        } else {
+            List<Recipe> rec = getRecipesByQuery(charText);
+            recipes.addAll(rec);
+            recipes = getRecipesByQuery(charText);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
