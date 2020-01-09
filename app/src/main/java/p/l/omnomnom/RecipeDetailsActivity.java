@@ -26,7 +26,8 @@ import p.l.omnomnom.step.Step;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
     Recipe recipe;
-    int recipeId;
+    long recipeId;
+    RecipeAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +40,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-            int j = (int) b.get("recipeId");
-            Recipe a = (Recipe) b.getSerializable("edit");
+            recipeId = (int) b.get("recipeId");
+            recipe = (Recipe) b.getSerializable("edit");
             TextView textView = findViewById(R.id.textView);
-            setTitle(a.getName());
+            setTitle(recipe.getName());
 
-            RecipeAdapter adapter = new RecipeAdapter(this);
-            List<Step> steps = adapter.getStepsByRecipeId(a.getId());
-            List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(a.getId());
+            adapter = new RecipeAdapter(this);
+            List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
+            List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
             StringBuilder napis = new StringBuilder();
-            napis.append(a.getName());
+            napis.append(recipe.getName());
             for (Step s : steps) {
                 napis.append(s.getName()+ " \n");
             }
@@ -85,7 +86,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 //editRecipe();
                 return true;
             case R.id.delete_recipe:
-                //deleteRecipe();
+                adapter.removeRecipe(recipe.getId());
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

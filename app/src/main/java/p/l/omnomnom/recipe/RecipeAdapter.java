@@ -63,6 +63,16 @@ public class RecipeAdapter extends
         return id;
     }
 
+    public void removeRecipe(long id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        String whereClause = "id=?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+
+        db.delete("Recipe", whereClause, whereArgs);
+        db.close();
+    }
+
     public void addSteps(List<Step> steps){
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -72,7 +82,7 @@ public class RecipeAdapter extends
             values.put("number", s.getNumber());
             values.put("recipe_id", s.getRecipeId());
 
-            long id = db.insert("Step", null, values);
+            db.insert("Step", null, values);
         }
         db.close();
     }
@@ -86,7 +96,7 @@ public class RecipeAdapter extends
             values.put("ingredient_id", i.getIngredientId());
             values.put("amount", i.getAmount());
 
-            long id = db.insert("Ingredient_Recipe", null, values);
+            db.insert("Ingredient_Recipe", null, values);
         }
         db.close();
     }
