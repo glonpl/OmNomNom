@@ -92,13 +92,23 @@ public class AddRecipeActivity extends AppCompatActivity implements
 
         layout = (LinearLayout)findViewById(R.id.linear);
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
         TextView txtName = new TextView(this);
+        txtName.setLayoutParams(params);
+        params.setMargins(10, 10, 10, 10);
+
         //txtName.setId(28);
-        LinearLayout linearlayout = new LinearLayout(this);
+        //LinearLayout linearlayout = new LinearLayout(this);
         txtName.setText("new text");
 //
-        linearlayout.addView(txtName);
-        layout.addView(linearlayout);
+        //linearlayout.addView(txtName);
+        layout.addView(txtName);
+
+        params.height = 100;
+        params.width = 100;
+        layout.setLayoutParams(params);
     }
 
     public void onAddStep(View view) {
@@ -123,4 +133,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

@@ -134,6 +134,7 @@ public class RecipeFragment extends Fragment implements
 
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_recipe, container, false);
+
         return v;
     }
 

@@ -9,6 +9,9 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,14 +29,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //setTitle("aa");
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -41,8 +36,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         if(b!=null)
         {
             int j = (int) b.get("recipeId");
+            Recipe a = (Recipe) b.getSerializable("edit");
             TextView textView = findViewById(R.id.textView);
-            textView.setText("przepis " + j);
+            textView.setText("przepis " + a.getName());
+            setTitle(a.getName());
         }
 
         //String message = intent.getStringExtra("recipeId");
@@ -52,5 +49,27 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 //        textView.setText("przepis " + message);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.recipe_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.edit_recipe:
+                //Todo EDYCJA I USUWANIE
+                //editRecipe();
+                return true;
+            case R.id.delete_recipe:
+                //deleteRecipe();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

@@ -123,13 +123,14 @@ public class RecipeAdapter extends
                 // odnajdujemy indeks klikniętego elementu
                 int positionToDelete = mRecyclerView.getChildAdapterPosition(v);
                 // usuwamy element ze źródła danych
-                //Recipe recipe = recipes.get(positionToDelete);
+                Recipe recipe = recipes.get(positionToDelete);
                 //recipes.remove(positionToDelete);
                 // poniższa metoda w animowany sposób usunie element z listy
                 //notifyItemRemoved(positionToDelete);
 
                 Intent intent = new Intent(context, RecipeDetailsActivity.class);
                 intent.putExtra("recipeId", positionToDelete);
+                intent.putExtra("edit", recipe);
                 context.startActivity(intent);
             }
         });
