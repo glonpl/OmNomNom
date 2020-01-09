@@ -90,6 +90,18 @@ public class AddRecipeActivity extends AppCompatActivity implements
     public void setValues(Recipe recipe){
         EditText editTextName = findViewById(R.id.editTextName);
         editTextName.setText(recipe.getName());
+
+        EditText editTextTime = findViewById(R.id.editTextTime);
+        editTextTime.setText(recipe.getTime());
+
+        NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        numberPicker.setValue(recipe.getServing());
+
+        Spinner spinner = findViewById(R.id.spinner);
+
+        EditText editTextIngredient = findViewById(R.id.editTextIgredientValue);
+
+        EditText editTextStep = findViewById(R.id.editTextStep);
     }
 
     public void onAddRecipe(View view) {
@@ -112,10 +124,10 @@ public class AddRecipeActivity extends AppCompatActivity implements
         String recipeStepValue = editTextStep.getText().toString();
 
         RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        long id = recipeAdapter.addRecipe(new Recipe(recipeName));
+        long id = recipeAdapter.addRecipe(new Recipe(recipeName, recipeTime, numberPickerValue));
 
         List<IngredientInRecipe> ingredients = new ArrayList<>();
-        IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1);
+        IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1, recipeIngredientValue);
         ingredients.add(ingredient);
         recipeAdapter.addIngredientsInRecipe(ingredients);
 
@@ -141,6 +153,15 @@ public class AddRecipeActivity extends AppCompatActivity implements
         LinearLayout l = new LinearLayout(this);
         Spinner s = new Spinner(this, Spinner.MODE_DIALOG);
         s.setOnItemSelectedListener(this);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        float factor = this.getResources().getDisplayMetrics().density;
+
+        s.setPadding((int)(10 * factor), (int)(10 * factor), (int)(10 * factor), (int)(10 * factor));
+        params2.width = (int)(163 * factor);
+        s.setLayoutParams(params2);
+
         IngredientAdapter ingredientAdapter = new IngredientAdapter(this);
         ingredients = ingredientAdapter.getAllIngredientsNames();
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,ingredients);
@@ -156,7 +177,7 @@ public class AddRecipeActivity extends AppCompatActivity implements
 
         layout.addView(l);
 
-        params.height = 100 * getIngredientsNumber();
+        params.height = 145 * getIngredientsNumber();
         ingredientsCount++;
         layout.setLayoutParams(params);
     }

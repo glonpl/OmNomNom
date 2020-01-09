@@ -53,7 +53,9 @@ public class RecipeAdapter extends
     public long addRecipe(Recipe recipe){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", recipe.getName()); // Contact Name
+        values.put("name", recipe.getName());
+        values.put("time", recipe.getTime());
+        values.put("serving", recipe.getServing());
 
         // Inserting Row
         long id = db.insert("Recipe", null, values);
@@ -115,6 +117,8 @@ public class RecipeAdapter extends
                 Recipe recipe = new Recipe();
                 recipe.setId(Integer.parseInt(cursor.getString(0)));
                 recipe.setName(cursor.getString(1));
+                recipe.setTime(cursor.getString(2));
+                recipe.setServing(Integer.parseInt(cursor.getString(3)));
                 // Adding contact to list
                 recipeList.add(recipe);
             } while (cursor.moveToNext());
@@ -162,7 +166,7 @@ public class RecipeAdapter extends
                 ingredient.setId(Integer.parseInt(cursor.getString(0)));
                 ingredient.setRecipeId(Integer.parseInt(cursor.getString(1)));
                 ingredient.setIngredientId(Integer.parseInt(cursor.getString(2)));
-                ingredient.setAmount(Integer.parseInt(cursor.getString(3)));
+                ingredient.setAmount(cursor.getString(3));
                 // Adding contact to list
                 ingredients.add(ingredient);
             } while (cursor.moveToNext());
@@ -204,6 +208,8 @@ public class RecipeAdapter extends
                 Recipe recipe = new Recipe();
                 recipe.setId(Integer.parseInt(cursor.getString(0)));
                 recipe.setName(cursor.getString(1));
+                recipe.setTime(cursor.getString(2));
+                recipe.setServing(Integer.parseInt(cursor.getString(3)));
                 // Adding contact to list
                 recipeList.add(recipe);
             } while (cursor.moveToNext());

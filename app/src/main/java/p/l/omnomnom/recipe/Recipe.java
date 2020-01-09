@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class Recipe implements Serializable {
     private long id;
     private String name;
+    private String time;
+    private int serving;
 
     public Recipe(){
 
@@ -15,9 +17,17 @@ public class Recipe implements Serializable {
         this.name = name;
     }
 
-    public Recipe(long id, String name){
+    public Recipe(String name, String time, int serving){
+        this.name = name;
+        this.time = time;
+        this.serving = serving;
+    }
+
+    public Recipe(long id, String name, String time, int serving){
         this.id = id;
         this.name = name;
+        this.time = time;
+        this.serving = serving;
     }
 
     public long getId() {
@@ -44,5 +54,21 @@ public class Recipe implements Serializable {
         }
 
         return recipes;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getServing() {
+        return serving;
+    }
+
+    public void setServing(int serving) {
+        this.serving = serving;
     }
 }

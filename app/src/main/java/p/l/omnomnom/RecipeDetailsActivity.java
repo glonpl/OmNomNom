@@ -45,6 +45,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
             List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
             StringBuilder napis = new StringBuilder();
+            napis.append(recipe.getServing()).append(" ");
+            napis.append(recipe.getTime()).append(" \n");
             for (Step s : steps) {
                 napis.append(s.getNumber()).append(" ");
                 napis.append(s.getName()).append(" \n");

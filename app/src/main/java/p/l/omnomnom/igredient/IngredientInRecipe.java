@@ -4,13 +4,13 @@ public class IngredientInRecipe {
     private long id;
     private long recipeId;
     private long ingredientId;
-    private int amount;
+    private String amount;
 
     public IngredientInRecipe(){
 
     }
 
-    public IngredientInRecipe(long recipeId, long ingredientId, int amount){
+    public IngredientInRecipe(long recipeId, long ingredientId, String amount){
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
         this.amount = amount;
@@ -29,11 +29,11 @@ public class IngredientInRecipe {
         this.id = id;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
