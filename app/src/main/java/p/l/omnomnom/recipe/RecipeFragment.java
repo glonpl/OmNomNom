@@ -94,6 +94,7 @@ public class RecipeFragment extends Fragment implements
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         RecyclerView rvContacts = (RecyclerView) v.findViewById(R.id.list);
+        rvContacts.setNestedScrollingEnabled(true);
 
         // Initialize contacts
         //recipes = Recipe.createRecipesList(20);

@@ -82,7 +82,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.edit_recipe:
-                //Todo EDYCJA I USUWANIE
+                //Todo EDYCJA
                 //editRecipe();
                 return true;
             case R.id.delete_recipe:
