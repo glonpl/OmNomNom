@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,9 +28,11 @@ import p.l.omnomnom.recipe.RecipeAdapter;
 import p.l.omnomnom.recipe.RecipeFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnFragmentInteractionListener,
-        ConverterFragment.OnFragmentInteractionListener {
+        ConverterFragment.OnFragmentInteractionListener
+{
     static final String EXTRA_MESSAGE = "message";
     Fragment fragment;
+    public RecipeAdapter adapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        adapter = new RecipeAdapter(this);
         super.onCreate(savedInstanceState);
 
         layout_immersive_sticky(getWindow().getDecorView());
@@ -123,27 +129,40 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     public void sendMessage(View view) {
-        EditText editText = findViewById(R.id.nameEditText);
-        String recipeName = editText.getText().toString();
-
-        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        recipeAdapter.addRecipe(new Recipe(recipeName));
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-
-        intent.putExtra(EXTRA_MESSAGE, recipeName);
-        startActivity(intent);
+//        EditText editText = findViewById(R.id.nameEditText);
+//        String recipeName = editText.getText().toString();
+//
+//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        recipeAdapter.addRecipe(new Recipe(recipeName));
+//        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//
+//        intent.putExtra(EXTRA_MESSAGE, recipeName);
+//        startActivity(intent);
     }
 
     public void showAll(View view) {
-        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        List<Recipe> recipes = recipeAdapter.getAllRecipes();
-        String string = "";
-        for (Recipe recipe : recipes) {
-            string += recipe.getName() + "\n";
-        }
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        List<Recipe> recipes = recipeAdapter.getAllRecipes();
+//        String string = "";
+//        for (Recipe recipe : recipes) {
+//            string += recipe.getName() + "\n";
+//        }
+//        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//
+//        intent.putExtra(EXTRA_MESSAGE, string);
+//        startActivity(intent);
+    }
 
-        intent.putExtra(EXTRA_MESSAGE, string);
+    public void addRecipe(View view){
+        //RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+//        List<Recipe> recipes = recipeAdapter.getAllRecipes();
+//        String string = "";
+//        for (Recipe recipe : recipes) {
+//            string += recipe.getName() + "\n";
+//        }
+        Intent intent = new Intent(this, AddRecipeActivity.class);
+
+//        intent.putExtra(EXTRA_MESSAGE, string);
         startActivity(intent);
     }
 
@@ -153,4 +172,5 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
+
 }

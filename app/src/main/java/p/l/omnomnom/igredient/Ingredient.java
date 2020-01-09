@@ -1,27 +1,27 @@
 package p.l.omnomnom.igredient;
 
-public class Igredient {
-    private int id;
+public class Ingredient {
+    private long id;
     private String name;
 
-    public Igredient(){
+    public Ingredient(){
 
     }
 
-    public Igredient(String name){
+    public Ingredient(String name){
         this.name = name;
     }
 
-    public Igredient(int id, String name){
+    public Ingredient(long id, String name){
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
