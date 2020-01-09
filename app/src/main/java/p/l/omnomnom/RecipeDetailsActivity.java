@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
 import p.l.omnomnom.recipe.RecipeAdapter;
@@ -44,18 +45,18 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
             List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
             StringBuilder napis = new StringBuilder();
-            napis.append(recipe.getName()).append(" \n");
             for (Step s : steps) {
+                napis.append(s.getNumber()).append(" ");
                 napis.append(s.getName()).append(" \n");
             }
             for (IngredientInRecipe s : ingredients) {
-                napis.append(s.getIngredientId()).append(" ");
-                napis.append(s.getRecipeId()).append(" ");
+                Ingredient i = adapter.getIngredientsByIngredientId(s.getIngredientId());
+                napis.append(i.getName()).append(" ");
                 napis.append(s.getAmount()).append(" \n");
             }
 
 
-            textView.setText("przepis " + napis);
+            textView.setText(napis);
         }
     }
 
@@ -75,6 +76,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 //Todo EDYCJA
                 //adapter.editRecipe();
                 intent = new Intent(this, AddRecipeActivity.class);
+                intent.putExtra("edit", recipe);
                 this.startActivity(intent);
                 return true;
             case R.id.delete_recipe:

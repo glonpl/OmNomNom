@@ -26,10 +26,11 @@ import p.l.omnomnom.step.Step;
 
 public class AddRecipeActivity extends AppCompatActivity implements  
         AdapterView.OnItemSelectedListener {
-    String[] ingredients2 = { "Jajka", "Mąka", "Sól"};
     List<String> ingredients;
     int ingredientsCount = 0;
     int stepsCount = 0;
+    Recipe recipe;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,24 @@ public class AddRecipeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add_recipe);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Dodaj przepis");
+
+
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+
+        if(b!=null)
+        {
+            recipe = (Recipe) b.getSerializable("edit");
+        }
+
+        if(recipe == null){
+            setTitle("Dodaj przepis");
+        }
+        else{
+            setTitle("Edytuj przepis");
+            setValues(recipe);
+        }
 
         NumberPicker np = findViewById(R.id.numberPicker);
 
@@ -58,7 +76,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
 
-
     }
 
     NumberPicker.OnValueChangeListener onValueChangeListener =
@@ -69,6 +86,11 @@ public class AddRecipeActivity extends AppCompatActivity implements
                             "selected number "+numberPicker.getValue(), Toast.LENGTH_SHORT);
                 }
             };
+
+    public void setValues(Recipe recipe){
+        EditText editTextName = findViewById(R.id.editTextName);
+        editTextName.setText(recipe.getName());
+    }
 
     public void onAddRecipe(View view) {
         EditText editTextName = findViewById(R.id.editTextName);
@@ -108,8 +130,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         //intent.putExtra("", recipeName);
         startActivity(intent);
     }
-
-    LinearLayout layout;
 
     public void onAddIngredient(View view) {
 

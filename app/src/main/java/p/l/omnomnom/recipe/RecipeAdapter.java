@@ -138,6 +138,7 @@ public class RecipeAdapter extends
                 Step step = new Step();
                 step.setId(Integer.parseInt(cursor.getString(0)));
                 step.setName(cursor.getString(1));
+                step.setNumber(Integer.parseInt(cursor.getString(2)));
                 // Adding contact to list
                 steps.add(step);
             } while (cursor.moveToNext());
@@ -168,6 +169,25 @@ public class RecipeAdapter extends
         }
 
         return ingredients;
+    }
+
+    public Ingredient getIngredientsByIngredientId(long id){
+        List<IngredientInRecipe> ingredients = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM Ingredient WHERE id = ?";
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {String.valueOf(id)});
+
+        Ingredient ingredient = new Ingredient();;
+        if (cursor.moveToFirst()) {
+            do {
+                ingredient.setId(Integer.parseInt(cursor.getString(0)));
+                ingredient.setName(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        return ingredient;
     }
 
     public List<Recipe> getRecipesByQuery(String query){
