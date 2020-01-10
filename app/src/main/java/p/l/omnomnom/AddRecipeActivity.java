@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientAdapter;
 import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
@@ -98,11 +99,18 @@ public class AddRecipeActivity extends AppCompatActivity implements
         NumberPicker numberPicker = findViewById(R.id.numberPicker);
         numberPicker.setValue(recipe.getServing());
 
+        RecipeAdapter adapter = new RecipeAdapter(this);
+        List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
+        List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
+
         Spinner spinner = findViewById(R.id.spinner);
+        spinner.setSelection((int)ingredients.get(0).getIngredientId());
 
         EditText editTextIngredient = findViewById(R.id.editTextIgredientValue);
+        editTextIngredient.setText(ingredients.get(0).getAmount());
 
         EditText editTextStep = findViewById(R.id.editTextStep);
+        editTextStep.setText(steps.get(0).getName());
     }
 
     public void onAddRecipe(View view) {
