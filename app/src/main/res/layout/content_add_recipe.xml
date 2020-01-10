@@ -27,7 +27,9 @@
                 android:layout_width="173dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Nazwa" />
+                android:padding="10dp"
+                android:text="Nazwa:"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextName"
@@ -47,7 +49,9 @@
                 android:layout_width="173dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Czas [min]" />
+                android:padding="10dp"
+                android:text="Czas [min]:"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextTime"
@@ -69,7 +73,9 @@
                 android:layout_width="173dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Porcja [osoby]" />
+                android:padding="10dp"
+                android:text="Porcja [osoby]:"
+                android:textStyle="bold" />
 
             <NumberPicker
                 android:id="@+id/numberPicker"
@@ -96,13 +102,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Składniki" />
+                android:padding="10dp"
+                android:text="Składniki:"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="54dp"
             android:orientation="horizontal">
 
             <Spinner
@@ -145,7 +153,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="54dp"
             android:orientation="horizontal">
 
             <TextView
@@ -154,18 +162,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Kroki" />
+                android:padding="10dp"
+                android:text="Kroki:"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="54dp"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/editTextStep"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine" />
@@ -179,7 +189,7 @@
             android:orientation="vertical"></LinearLayout>
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/buttonAddStep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onAddStep"

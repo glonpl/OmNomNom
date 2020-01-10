@@ -53,7 +53,9 @@ public class RecipeAdapter extends
     public long addRecipe(Recipe recipe){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", recipe.getName()); // Contact Name
+        values.put("name", recipe.getName());
+        values.put("time", recipe.getTime());
+        values.put("serving", recipe.getServing());
 
         // Inserting Row
         long id = db.insert("Recipe", null, values);
@@ -61,6 +63,21 @@ public class RecipeAdapter extends
         db.close(); // Closing database connection
 
         return id;
+    }
+
+    public void updateRecipe(Recipe recipe){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", recipe.getName());
+        values.put("time", recipe.getTime());
+        values.put("serving", recipe.getServing());
+
+        String whereClause = "id=?";
+        String[] whereArgs = new String[] { String.valueOf(recipe.getId()) };
+
+        db.update("Recipe", values, whereClause, whereArgs);
+
+        db.close();
     }
 
     public void removeRecipe(long id){
@@ -115,6 +132,8 @@ public class RecipeAdapter extends
                 Recipe recipe = new Recipe();
                 recipe.setId(Integer.parseInt(cursor.getString(0)));
                 recipe.setName(cursor.getString(1));
+                recipe.setTime(cursor.getString(2));
+                recipe.setServing(Integer.parseInt(cursor.getString(3)));
                 // Adding contact to list
                 recipeList.add(recipe);
             } while (cursor.moveToNext());
@@ -138,6 +157,7 @@ public class RecipeAdapter extends
                 Step step = new Step();
                 step.setId(Integer.parseInt(cursor.getString(0)));
                 step.setName(cursor.getString(1));
+                step.setNumber(Integer.parseInt(cursor.getString(2)));
                 // Adding contact to list
                 steps.add(step);
             } while (cursor.moveToNext());
@@ -161,13 +181,32 @@ public class RecipeAdapter extends
                 ingredient.setId(Integer.parseInt(cursor.getString(0)));
                 ingredient.setRecipeId(Integer.parseInt(cursor.getString(1)));
                 ingredient.setIngredientId(Integer.parseInt(cursor.getString(2)));
-                ingredient.setAmount(Integer.parseInt(cursor.getString(3)));
+                ingredient.setAmount(cursor.getString(3));
                 // Adding contact to list
                 ingredients.add(ingredient);
             } while (cursor.moveToNext());
         }
 
         return ingredients;
+    }
+
+    public Ingredient getIngredientsByIngredientId(long id){
+        List<IngredientInRecipe> ingredients = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM Ingredient WHERE id = ?";
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {String.valueOf(id)});
+
+        Ingredient ingredient = new Ingredient();;
+        if (cursor.moveToFirst()) {
+            do {
+                ingredient.setId(Integer.parseInt(cursor.getString(0)));
+                ingredient.setName(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        return ingredient;
     }
 
     public List<Recipe> getRecipesByQuery(String query){
@@ -184,6 +223,8 @@ public class RecipeAdapter extends
                 Recipe recipe = new Recipe();
                 recipe.setId(Integer.parseInt(cursor.getString(0)));
                 recipe.setName(cursor.getString(1));
+                recipe.setTime(cursor.getString(2));
+                recipe.setServing(Integer.parseInt(cursor.getString(3)));
                 // Adding contact to list
                 recipeList.add(recipe);
             } while (cursor.moveToNext());

@@ -22,6 +22,8 @@ import java.util.Locale;
 
 import p.l.omnomnom.R;
 
+import static p.l.omnomnom.MainActivity.layout_immersive_sticky;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,19 +115,28 @@ public class ConverterFragment extends Fragment {
         Bttn_Convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                layout_immersive_sticky(ConverterFragment.super.getView());
                 double answer = 0;
                 if (ET_from.hasFocus()) {
                     Measure from = (Measure) Spin_from.getSelectedItem();
                     Measure to = (Measure) Spin_to.getSelectedItem();
+                    if (ET_from.getText().toString().isEmpty()) {
+                        ET_from.setText("0");
+                    }
                     answer = (from.getPrzelicznik() * Double.parseDouble(ET_from.getText().toString())) / to.getPrzelicznik();
                     ET_to.setText(String.format(Locale.UK, "%.5f", answer)); //todo: ogranicz dziesietne
                 }
                 if (ET_to.hasFocus()) {
                     Measure from = (Measure) Spin_to.getSelectedItem();
                     Measure to = (Measure) Spin_from.getSelectedItem();
+                    if (ET_to.getText().toString().isEmpty()) {
+                        ET_to.setText("0");
+                    }
                     answer = (from.getPrzelicznik() * Double.parseDouble(ET_to.getText().toString())) / to.getPrzelicznik();
                     ET_from.setText(String.format(Locale.UK, "%.5f", answer)); //todo: ogranicz dziesietne
+
                 }
+                //layout_immersive_sticky(ConverterFragment.super.getView());
             }
         });
         return v;

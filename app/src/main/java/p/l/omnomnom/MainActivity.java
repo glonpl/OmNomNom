@@ -167,6 +167,14 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            layout_immersive_sticky(getWindow().getDecorView());
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
         super.onSaveInstanceState(outState);

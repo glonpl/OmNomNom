@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
 import p.l.omnomnom.recipe.RecipeAdapter;
@@ -37,25 +38,36 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         {
             recipeId = (int) b.get("recipeId");
             recipe = (Recipe) b.getSerializable("edit");
-            TextView textView = findViewById(R.id.textView);
             setTitle(recipe.getName());
 
             adapter = new RecipeAdapter(this);
-            List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
+
+            TextView textViewServing = findViewById(R.id.textViewServing);
+            textViewServing.setText(String.valueOf(recipe.getServing()));
+
+            TextView textViewTime = findViewById(R.id.textViewTime);
+            textViewTime.setText(recipe.getTime());
+
             List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
-            StringBuilder napis = new StringBuilder();
-            napis.append(recipe.getName()).append(" \n");
-            for (Step s : steps) {
-                napis.append(s.getName()).append(" \n");
-            }
+            StringBuilder ingredientsDescription = new StringBuilder();
             for (IngredientInRecipe s : ingredients) {
-                napis.append(s.getIngredientId()).append(" ");
-                napis.append(s.getRecipeId()).append(" ");
-                napis.append(s.getAmount()).append(" \n");
+                Ingredient i = adapter.getIngredientsByIngredientId(s.getIngredientId());
+                ingredientsDescription.append(s.getAmount()).append(" ");
+                ingredientsDescription.append(i.getName()).append(" \n");
             }
+            TextView textViewIngredients = findViewById(R.id.textViewIngredients);
+            textViewIngredients.setText(ingredientsDescription);
 
 
-            textView.setText("przepis " + napis);
+            List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
+            StringBuilder stepsDescription = new StringBuilder();
+
+            for (Step s : steps) {
+                stepsDescription.append(s.getNumber()).append(".").append(" ");
+                stepsDescription.append(s.getName()).append(" \n");
+            }
+            TextView textViewSteps = findViewById(R.id.textViewSteps);
+            textViewSteps.setText(stepsDescription);
         }
     }
 
@@ -72,9 +84,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.edit_recipe:
-                //Todo EDYCJA
-                //adapter.editRecipe();
                 intent = new Intent(this, AddRecipeActivity.class);
+                intent.putExtra("edit", recipe);
+                intent.putExtra("isEdit", true);
                 this.startActivity(intent);
                 return true;
             case R.id.delete_recipe:

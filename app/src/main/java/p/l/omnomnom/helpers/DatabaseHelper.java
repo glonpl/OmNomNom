@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "OmNomNom3.db";
+    public static final String DATABASE_NAME = "OmNomNom4.db";
 
     private static final String SQL_CREATE_RECIPE =
             "CREATE TABLE Recipe (id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name TEXT)";
+                    "name TEXT," +
+                    "time TEXT," +
+                    "serving INTEGER)";
 
     private static final String SQL_CREATE_STEP =
             "CREATE TABLE Step (id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -28,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE Ingredient_Recipe (id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "recipe_id INTEGER," +
                     "ingredient_id INTEGER," +
-                    "amount INTEGER," +
+                    "amount TEXT," +
                     "FOREIGN KEY(recipe_id) REFERENCES Recipe(id)," +
                     "FOREIGN KEY(ingredient_id) REFERENCES Ingredient(id))";
 
@@ -79,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void loadRecipes(SQLiteDatabase db){
-        db.execSQL("INSERT INTO Recipe (name) VALUES('Jajecznica');");
+        db.execSQL("INSERT INTO Recipe (name, time, serving) VALUES('Jajecznica', '5', 1);");
     }
 
     public void loadSteps(SQLiteDatabase db){
