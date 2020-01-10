@@ -205,10 +205,12 @@ public class AddRecipeActivity extends AppCompatActivity implements
             recipe = (Recipe) b.getSerializable("edit");
             id = recipe.getId();
             recipeAdapter.updateRecipe(new Recipe(id, recipeName, recipeTime, numberPickerValue));
+            recipeAdapter.removeIngredientsByRecipeId(id);
+            recipeAdapter.removeStepsByRecipeId(id);
         }
         else {
             id = recipeAdapter.addRecipe(new Recipe(recipeName, recipeTime, numberPickerValue));
-
+        }
             List<IngredientInRecipe> ingredients = new ArrayList<>();
             IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue + 1, recipeIngredientValue);
             ingredients.add(ingredient);
@@ -256,7 +258,7 @@ public class AddRecipeActivity extends AppCompatActivity implements
             }
 
             recipeAdapter.addSteps(steps);
-        }
+
 
         intent = new Intent(this, MainActivity.class);
 
