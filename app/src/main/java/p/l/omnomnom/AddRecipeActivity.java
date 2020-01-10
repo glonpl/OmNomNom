@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import p.l.omnomnom.igredient.Ingredient;
 import p.l.omnomnom.igredient.IngredientAdapter;
 import p.l.omnomnom.igredient.IngredientInRecipe;
 import p.l.omnomnom.recipe.Recipe;
@@ -26,10 +28,11 @@ import p.l.omnomnom.step.Step;
 
 public class AddRecipeActivity extends AppCompatActivity implements  
         AdapterView.OnItemSelectedListener {
-    String[] ingredients2 = { "Jajka", "Mąka", "Sól"};
     List<String> ingredients;
     int ingredientsCount = 0;
     int stepsCount = 0;
+    Recipe recipe;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,24 @@ public class AddRecipeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add_recipe);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Dodaj przepis");
+
+
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+
+        if(b!=null)
+        {
+            recipe = (Recipe) b.getSerializable("edit");
+        }
+
+        if(recipe == null){
+            setTitle("Dodaj przepis");
+        }
+        else{
+            setTitle("Edytuj przepis");
+            setValues(recipe);
+        }
 
         NumberPicker np = findViewById(R.id.numberPicker);
 
@@ -58,7 +78,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
 
-
     }
 
     NumberPicker.OnValueChangeListener onValueChangeListener =
@@ -69,6 +88,94 @@ public class AddRecipeActivity extends AppCompatActivity implements
                             "selected number "+numberPicker.getValue(), Toast.LENGTH_SHORT);
                 }
             };
+
+    public void setValues(Recipe recipe){
+        EditText editTextName = findViewById(R.id.editTextName);
+        editTextName.setText(recipe.getName());
+
+        EditText editTextTime = findViewById(R.id.editTextTime);
+        editTextTime.setText(recipe.getTime());
+
+        NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        numberPicker.setValue(recipe.getServing());
+
+        RecipeAdapter adapter = new RecipeAdapter(this);
+        List<IngredientInRecipe> ingredientsInRecipe = adapter.getIngredientsByRecipeId(recipe.getId());
+        List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
+
+        Spinner spinner = findViewById(R.id.spinner);
+        spinner.setSelection((int)ingredientsInRecipe.get(0).getIngredientId());
+
+        EditText editTextIngredient = findViewById(R.id.editTextIgredientValue);
+        editTextIngredient.setText(ingredientsInRecipe.get(0).getAmount());
+
+        layout = (LinearLayout)findViewById(R.id.linear);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        for(IngredientInRecipe i : ingredientsInRecipe){
+            if(ingredientsCount == 1){
+                ingredientsCount++;
+                continue;
+            }
+            LinearLayout l = new LinearLayout(this);
+            Spinner s = new Spinner(this, Spinner.MODE_DIALOG);
+            s.setOnItemSelectedListener(this);
+            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+
+            float factor = this.getResources().getDisplayMetrics().density;
+
+            s.setPadding((int)(10 * factor), (int)(10 * factor), (int)(10 * factor), (int)(10 * factor));
+            params2.width = (int)(163 * factor);
+            s.setLayoutParams(params2);
+            s.setOnItemSelectedListener(this);
+
+            IngredientAdapter ingredientAdapter = new IngredientAdapter(this);
+            ingredients = ingredientAdapter.getAllIngredientsNames();
+            ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,ingredients);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            s.setSelection((int)i.getIngredientId());
+            s.setAdapter(aa);
+
+
+            EditText t = new EditText(this);
+            t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            t.setText(i.getAmount());
+
+            l.addView(s);
+            l.addView(t);
+
+            layout.addView(l);
+            params.height = 145 * getIngredientsNumber();
+            ingredientsCount++;
+            layout.setLayoutParams(params);
+        }
+
+
+        EditText editTextStep = findViewById(R.id.editTextStep);
+        editTextStep.setText(steps.get(0).getName());
+
+        layout2 = (LinearLayout)findViewById(R.id.linear2);
+
+        for(Step s : steps){
+            if(stepsCount == 1){
+                stepsCount++;
+                continue;
+            }
+            LinearLayout l = new LinearLayout(this);
+            EditText t = new EditText(this);
+            t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            t.setText(s.getName());
+            l.addView(t);
+
+            stepsCount++;
+            params.height = 100 * getStepsNumber();
+
+            layout2.setLayoutParams(params);
+            layout2.addView(l);
+        }
+    }
 
     public void onAddRecipe(View view) {
         EditText editTextName = findViewById(R.id.editTextName);
@@ -90,26 +197,74 @@ public class AddRecipeActivity extends AppCompatActivity implements
         String recipeStepValue = editTextStep.getText().toString();
 
         RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        long id = recipeAdapter.addRecipe(new Recipe(recipeName));
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        long id;
+        if(b!=null)
+        {
+            recipe = (Recipe) b.getSerializable("edit");
+            id = recipe.getId();
+            recipeAdapter.updateRecipe(new Recipe(id, recipeName, recipeTime, numberPickerValue));
+            recipeAdapter.removeIngredientsByRecipeId(id);
+            recipeAdapter.removeStepsByRecipeId(id);
+        }
+        else {
+            id = recipeAdapter.addRecipe(new Recipe(recipeName, recipeTime, numberPickerValue));
+        }
+            List<IngredientInRecipe> ingredients = new ArrayList<>();
+            IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue + 1, recipeIngredientValue);
+            ingredients.add(ingredient);
+            //recipeAdapter.addIngredientsInRecipe(ingredients);
 
-        List<IngredientInRecipe> ingredients = new ArrayList<>();
-        IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1);
-        ingredients.add(ingredient);
-        recipeAdapter.addIngredientsInRecipe(ingredients);
+            layout = (LinearLayout) findViewById(R.id.linear);
+            int count = layout.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View child = layout.getChildAt(i);
+                if (child instanceof LinearLayout) {
+                    //Support for RadioGroups
+                    LinearLayout radio = (LinearLayout) child;
+                    Spinner s = (Spinner) radio.getChildAt(0);
+                    spinnerValue = s.getSelectedItemPosition();
+                    EditText t = (EditText) radio.getChildAt(1);
+                    recipeIngredientValue = t.getText().toString();
+
+                    ingredient = new IngredientInRecipe(id, spinnerValue + 1, recipeIngredientValue);
+                    ingredients.add(ingredient);
+                }
+            }
+            recipeAdapter.addIngredientsInRecipe(ingredients);
 
 
-        List<Step> steps = new ArrayList<>();
-        Step step = new Step(recipeStepValue, 3, id);
-        steps.add(step);
-        recipeAdapter.addSteps(steps);
+            int stepNumber = 1;
+            List<Step> steps = new ArrayList<>();
+            Step step = new Step(recipeStepValue, stepNumber, id);
+            stepNumber++;
+            steps.add(step);
 
-        Intent intent = new Intent(this, MainActivity.class);
+            layout2 = (LinearLayout) findViewById(R.id.linear2);
+            int count2 = layout2.getChildCount();
+            for (int i = 0; i < count2; i++) {
+                View child = layout2.getChildAt(i);
+                if (child instanceof LinearLayout) {
+                    //Support for RadioGroups
+                    LinearLayout radio = (LinearLayout) child;
+                    EditText t = (EditText) radio.getChildAt(0);
+                    recipeStepValue = t.getText().toString();
+
+                    step = new Step(recipeStepValue, stepNumber, id);
+                    steps.add(step);
+                }
+                stepNumber++;
+            }
+
+            recipeAdapter.addSteps(steps);
+
+
+        intent = new Intent(this, MainActivity.class);
 
         //intent.putExtra("", recipeName);
         startActivity(intent);
     }
-
-    LinearLayout layout;
 
     public void onAddIngredient(View view) {
 
@@ -121,6 +276,15 @@ public class AddRecipeActivity extends AppCompatActivity implements
         LinearLayout l = new LinearLayout(this);
         Spinner s = new Spinner(this, Spinner.MODE_DIALOG);
         s.setOnItemSelectedListener(this);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        float factor = this.getResources().getDisplayMetrics().density;
+
+        s.setPadding((int)(10 * factor), (int)(10 * factor), (int)(10 * factor), (int)(10 * factor));
+        params2.width = (int)(163 * factor);
+        s.setLayoutParams(params2);
+
         IngredientAdapter ingredientAdapter = new IngredientAdapter(this);
         ingredients = ingredientAdapter.getAllIngredientsNames();
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,ingredients);
@@ -135,8 +299,7 @@ public class AddRecipeActivity extends AppCompatActivity implements
         l.addView(t);
 
         layout.addView(l);
-
-        params.height = 100 * getIngredientsNumber();
+        params.height = 145 * getIngredientsNumber();
         ingredientsCount++;
         layout.setLayoutParams(params);
     }
