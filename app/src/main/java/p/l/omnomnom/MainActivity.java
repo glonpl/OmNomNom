@@ -5,30 +5,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
 import p.l.omnomnom.converter.ConverterFragment;
-import p.l.omnomnom.recipe.Recipe;
 import p.l.omnomnom.recipe.RecipeAdapter;
 import p.l.omnomnom.recipe.RecipeFragment;
+import p.l.omnomnom.tips.TipsFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnFragmentInteractionListener,
-        ConverterFragment.OnFragmentInteractionListener
+        ConverterFragment.OnFragmentInteractionListener, TipsFragment.OnFragmentInteractionListener
 {
     static final String EXTRA_MESSAGE = "message";
     Fragment fragment;
@@ -49,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_notifications:
+                    //fragment = TipsFragment.newInstance("cos", "costam");
+                    loadFragment(fragment);
 
                     if (fragment != null) {
                         Snackbar.make(fragment.getView(), "Chwała poległym Studentom. Gabryś, pamiętamy [*]", Snackbar.LENGTH_LONG)
@@ -120,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 
     }
 
+
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         if (fragment instanceof RecipeFragment) {
@@ -181,4 +178,10 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        layout_immersive_sticky(getWindow().getDecorView());
+        return super.onTouchEvent(event);
+
+    }
 }

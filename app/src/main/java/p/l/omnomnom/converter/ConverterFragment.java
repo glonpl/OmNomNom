@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -55,6 +56,7 @@ public class ConverterFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private List<Measure> drawerList;
     private RadioButton RB_Weight;
+    private TableLayout Cnvrtr_Table_Layout;
 
 
     public ConverterFragment() {
@@ -100,11 +102,18 @@ public class ConverterFragment extends Fragment {
         RB_Weight = v.findViewById(R.id.weightRb);
         Spin_from = v.findViewById(R.id.spinnerFrom);
         Spin_to = v.findViewById(R.id.spinnerTo);
+        Cnvrtr_Table_Layout = v.findViewById(R.id.Cnvrtr_Table_Layout);
         drawerList = new ArrayList<>();
         ET_from.setText("0");
         ET_to.setText("0");
         selectedRB = v.findViewById(RG_Type.getCheckedRadioButtonId());
         setDrawers();
+        Cnvrtr_Table_Layout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                layout_immersive_sticky(ConverterFragment.super.getView());
+            }
+        });
         RG_Type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -112,6 +121,7 @@ public class ConverterFragment extends Fragment {
                 setDrawers();
             }
         });
+
         Bttn_Convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +163,6 @@ public class ConverterFragment extends Fragment {
         Spin_from.setAdapter(adapter);
         Spin_to.setAdapter(adapter);
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
