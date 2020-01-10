@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -129,12 +130,50 @@ public class AddRecipeActivity extends AppCompatActivity implements
         List<IngredientInRecipe> ingredients = new ArrayList<>();
         IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1, recipeIngredientValue);
         ingredients.add(ingredient);
+        //recipeAdapter.addIngredientsInRecipe(ingredients);
+
+        layout = (LinearLayout)findViewById(R.id.linear);
+        int count = layout.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = layout.getChildAt(i);
+            if(child instanceof LinearLayout ) {
+                //Support for RadioGroups
+                LinearLayout radio = (LinearLayout)child;
+                Spinner s = (Spinner) radio.getChildAt(0);
+                spinnerValue = s.getSelectedItemPosition();
+                EditText t = (EditText) radio.getChildAt(1);
+                recipeIngredientValue = t.getText().toString();
+
+                ingredient = new IngredientInRecipe(id, spinnerValue+1, recipeIngredientValue);
+                ingredients.add(ingredient);
+            }
+        }
         recipeAdapter.addIngredientsInRecipe(ingredients);
 
 
+        int stepNumber = 1;
         List<Step> steps = new ArrayList<>();
-        Step step = new Step(recipeStepValue, 3, id);
+        Step step = new Step(recipeStepValue, stepNumber, id);
+        stepNumber++;
         steps.add(step);
+
+        layout2 = (LinearLayout)findViewById(R.id.linear2);
+        int count2 = layout2.getChildCount();
+        for(int i = 0; i < count2; i++){
+            View child = layout2.getChildAt(i);
+            if(child instanceof LinearLayout ) {
+                //Support for RadioGroups
+                LinearLayout radio = (LinearLayout)child;
+                EditText t = (EditText) radio.getChildAt(0);
+                recipeStepValue = t.getText().toString();
+
+                step = new Step(recipeStepValue, stepNumber, id);
+                steps.add(step);
+            }
+            stepNumber++;
+        }
+
+
         recipeAdapter.addSteps(steps);
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -176,7 +215,6 @@ public class AddRecipeActivity extends AppCompatActivity implements
         l.addView(t);
 
         layout.addView(l);
-
         params.height = 145 * getIngredientsNumber();
         ingredientsCount++;
         layout.setLayoutParams(params);
