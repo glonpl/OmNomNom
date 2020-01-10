@@ -65,6 +65,21 @@ public class RecipeAdapter extends
         return id;
     }
 
+    public void updateRecipe(Recipe recipe){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", recipe.getName());
+        values.put("time", recipe.getTime());
+        values.put("serving", recipe.getServing());
+
+        String whereClause = "id=?";
+        String[] whereArgs = new String[] { String.valueOf(recipe.getId()) };
+
+        db.update("Recipe", values, whereClause, whereArgs);
+
+        db.close();
+    }
+
     public void removeRecipe(long id){
         SQLiteDatabase db = helper.getWritableDatabase();
 

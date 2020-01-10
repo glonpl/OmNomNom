@@ -84,10 +84,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.edit_recipe:
-                //Todo EDYCJA
-                //adapter.editRecipe();
                 intent = new Intent(this, AddRecipeActivity.class);
                 intent.putExtra("edit", recipe);
+                intent.putExtra("isEdit", true);
                 this.startActivity(intent);
                 return true;
             case R.id.delete_recipe:

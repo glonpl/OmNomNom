@@ -28,7 +28,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Nazwa" />
+                android:text="Nazwa:"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextName"
@@ -49,7 +50,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Czas [min]" />
+                android:text="Czas [min]:"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextTime"
@@ -72,7 +74,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Porcja [osoby]" />
+                android:text="Porcja [osoby]:"
+                android:textStyle="bold" />
 
             <NumberPicker
                 android:id="@+id/numberPicker"
@@ -100,7 +103,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Składniki" />
+                android:text="Składniki:"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -159,7 +163,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Kroki" />
+                android:text="Kroki:"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout

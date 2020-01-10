@@ -100,17 +100,81 @@ public class AddRecipeActivity extends AppCompatActivity implements
         numberPicker.setValue(recipe.getServing());
 
         RecipeAdapter adapter = new RecipeAdapter(this);
-        List<IngredientInRecipe> ingredients = adapter.getIngredientsByRecipeId(recipe.getId());
+        List<IngredientInRecipe> ingredientsInRecipe = adapter.getIngredientsByRecipeId(recipe.getId());
         List<Step> steps = adapter.getStepsByRecipeId(recipe.getId());
 
         Spinner spinner = findViewById(R.id.spinner);
-        spinner.setSelection((int)ingredients.get(0).getIngredientId());
+        spinner.setSelection((int)ingredientsInRecipe.get(0).getIngredientId());
 
         EditText editTextIngredient = findViewById(R.id.editTextIgredientValue);
-        editTextIngredient.setText(ingredients.get(0).getAmount());
+        editTextIngredient.setText(ingredientsInRecipe.get(0).getAmount());
+
+        layout = (LinearLayout)findViewById(R.id.linear);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        for(IngredientInRecipe i : ingredientsInRecipe){
+            if(ingredientsCount == 1){
+                ingredientsCount++;
+                continue;
+            }
+            LinearLayout l = new LinearLayout(this);
+            Spinner s = new Spinner(this, Spinner.MODE_DIALOG);
+            s.setOnItemSelectedListener(this);
+            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+
+            float factor = this.getResources().getDisplayMetrics().density;
+
+            s.setPadding((int)(10 * factor), (int)(10 * factor), (int)(10 * factor), (int)(10 * factor));
+            params2.width = (int)(163 * factor);
+            s.setLayoutParams(params2);
+            s.setOnItemSelectedListener(this);
+
+            IngredientAdapter ingredientAdapter = new IngredientAdapter(this);
+            ingredients = ingredientAdapter.getAllIngredientsNames();
+            ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,ingredients);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            s.setSelection((int)i.getIngredientId());
+            s.setAdapter(aa);
+
+
+            EditText t = new EditText(this);
+            t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            t.setText(i.getAmount());
+
+            l.addView(s);
+            l.addView(t);
+
+            layout.addView(l);
+            params.height = 145 * getIngredientsNumber();
+            ingredientsCount++;
+            layout.setLayoutParams(params);
+        }
+
 
         EditText editTextStep = findViewById(R.id.editTextStep);
         editTextStep.setText(steps.get(0).getName());
+
+        layout2 = (LinearLayout)findViewById(R.id.linear2);
+
+        for(Step s : steps){
+            if(stepsCount == 1){
+                stepsCount++;
+                continue;
+            }
+            LinearLayout l = new LinearLayout(this);
+            EditText t = new EditText(this);
+            t.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            t.setText(s.getName());
+            l.addView(t);
+
+            stepsCount++;
+            params.height = 100 * getStepsNumber();
+
+            layout2.setLayoutParams(params);
+            layout2.addView(l);
+        }
     }
 
     public void onAddRecipe(View view) {
@@ -133,58 +197,68 @@ public class AddRecipeActivity extends AppCompatActivity implements
         String recipeStepValue = editTextStep.getText().toString();
 
         RecipeAdapter recipeAdapter = new RecipeAdapter(this);
-        long id = recipeAdapter.addRecipe(new Recipe(recipeName, recipeTime, numberPickerValue));
-
-        List<IngredientInRecipe> ingredients = new ArrayList<>();
-        IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue+1, recipeIngredientValue);
-        ingredients.add(ingredient);
-        //recipeAdapter.addIngredientsInRecipe(ingredients);
-
-        layout = (LinearLayout)findViewById(R.id.linear);
-        int count = layout.getChildCount();
-        for(int i = 0; i < count; i++){
-            View child = layout.getChildAt(i);
-            if(child instanceof LinearLayout ) {
-                //Support for RadioGroups
-                LinearLayout radio = (LinearLayout)child;
-                Spinner s = (Spinner) radio.getChildAt(0);
-                spinnerValue = s.getSelectedItemPosition();
-                EditText t = (EditText) radio.getChildAt(1);
-                recipeIngredientValue = t.getText().toString();
-
-                ingredient = new IngredientInRecipe(id, spinnerValue+1, recipeIngredientValue);
-                ingredients.add(ingredient);
-            }
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        long id;
+        if(b!=null)
+        {
+            recipe = (Recipe) b.getSerializable("edit");
+            id = recipe.getId();
+            recipeAdapter.updateRecipe(new Recipe(id, recipeName, recipeTime, numberPickerValue));
         }
-        recipeAdapter.addIngredientsInRecipe(ingredients);
+        else {
+            id = recipeAdapter.addRecipe(new Recipe(recipeName, recipeTime, numberPickerValue));
 
+            List<IngredientInRecipe> ingredients = new ArrayList<>();
+            IngredientInRecipe ingredient = new IngredientInRecipe(id, spinnerValue + 1, recipeIngredientValue);
+            ingredients.add(ingredient);
+            //recipeAdapter.addIngredientsInRecipe(ingredients);
 
-        int stepNumber = 1;
-        List<Step> steps = new ArrayList<>();
-        Step step = new Step(recipeStepValue, stepNumber, id);
-        stepNumber++;
-        steps.add(step);
+            layout = (LinearLayout) findViewById(R.id.linear);
+            int count = layout.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View child = layout.getChildAt(i);
+                if (child instanceof LinearLayout) {
+                    //Support for RadioGroups
+                    LinearLayout radio = (LinearLayout) child;
+                    Spinner s = (Spinner) radio.getChildAt(0);
+                    spinnerValue = s.getSelectedItemPosition();
+                    EditText t = (EditText) radio.getChildAt(1);
+                    recipeIngredientValue = t.getText().toString();
 
-        layout2 = (LinearLayout)findViewById(R.id.linear2);
-        int count2 = layout2.getChildCount();
-        for(int i = 0; i < count2; i++){
-            View child = layout2.getChildAt(i);
-            if(child instanceof LinearLayout ) {
-                //Support for RadioGroups
-                LinearLayout radio = (LinearLayout)child;
-                EditText t = (EditText) radio.getChildAt(0);
-                recipeStepValue = t.getText().toString();
-
-                step = new Step(recipeStepValue, stepNumber, id);
-                steps.add(step);
+                    ingredient = new IngredientInRecipe(id, spinnerValue + 1, recipeIngredientValue);
+                    ingredients.add(ingredient);
+                }
             }
+            recipeAdapter.addIngredientsInRecipe(ingredients);
+
+
+            int stepNumber = 1;
+            List<Step> steps = new ArrayList<>();
+            Step step = new Step(recipeStepValue, stepNumber, id);
             stepNumber++;
+            steps.add(step);
+
+            layout2 = (LinearLayout) findViewById(R.id.linear2);
+            int count2 = layout2.getChildCount();
+            for (int i = 0; i < count2; i++) {
+                View child = layout2.getChildAt(i);
+                if (child instanceof LinearLayout) {
+                    //Support for RadioGroups
+                    LinearLayout radio = (LinearLayout) child;
+                    EditText t = (EditText) radio.getChildAt(0);
+                    recipeStepValue = t.getText().toString();
+
+                    step = new Step(recipeStepValue, stepNumber, id);
+                    steps.add(step);
+                }
+                stepNumber++;
+            }
+
+            recipeAdapter.addSteps(steps);
         }
 
-
-        recipeAdapter.addSteps(steps);
-
-        Intent intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
 
         //intent.putExtra("", recipeName);
         startActivity(intent);
