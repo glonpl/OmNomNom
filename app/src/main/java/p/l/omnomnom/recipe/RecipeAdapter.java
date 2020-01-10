@@ -90,6 +90,26 @@ public class RecipeAdapter extends
         db.close();
     }
 
+    public void removeIngredientsByRecipeId(long id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        String whereClause = "recipe_id=?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+
+        db.delete("Ingredient_Recipe", whereClause, whereArgs);
+        db.close();
+    }
+
+    public void removeStepsByRecipeId(long id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        String whereClause = "recipe_id=?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+
+        db.delete("Step", whereClause, whereArgs);
+        db.close();
+    }
+
     public void addSteps(List<Step> steps){
         SQLiteDatabase db = helper.getWritableDatabase();
 

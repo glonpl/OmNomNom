@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "OmNomNom4.db";
+    public static final String DATABASE_NAME = "OmNomNom5.db";
 
     private static final String SQL_CREATE_RECIPE =
             "CREATE TABLE Recipe (id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -78,19 +78,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Ingredient (name) VALUES('Jajka');");
         db.execSQL("INSERT INTO Ingredient (name) VALUES('Mąka');");
         db.execSQL("INSERT INTO Ingredient (name) VALUES('Cukier');");
+        db.execSQL("INSERT INTO Ingredient (name) VALUES('Mleko');");
+        db.execSQL("INSERT INTO Ingredient (name) VALUES('Sól');");
+        db.execSQL("INSERT INTO Ingredient (name) VALUES('Woda');");
     }
 
     public void loadRecipes(SQLiteDatabase db){
         db.execSQL("INSERT INTO Recipe (name, time, serving) VALUES('Jajecznica', '5', 1);");
+        db.execSQL("INSERT INTO Recipe (name, time, serving) VALUES('Nameśniki', '15', 10);");
     }
 
     public void loadSteps(SQLiteDatabase db){
         db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Na patelni rozpuszczamy masło', 1, 1);");
         db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Wbijamy jajka na patelnię', 2, 1);");
         db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Przyprawiamy', 3, 1);");
+
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól.', 1, 2);");
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Zmiksować na gładkie ciasto.', 2, 2);");
+        db.execSQL("INSERT INTO Step (name, number, recipe_id) VALUES('Wlać olej przed każdym naleśnikiem', 3, 2);");
     }
 
     public void loadIngredientRecipes(SQLiteDatabase db){
-        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(1, 1, 3);");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(1, 1, '3');");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(2, 2, '1 szklanka');");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(2, 1, '2');");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(2, 6, '3/4 szklanki');");
+        db.execSQL("INSERT INTO Ingredient_Recipe (recipe_id, ingredient_id, amount) VALUES(2, 5, 'szczypta');");
     }
 }
