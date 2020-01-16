@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -34,11 +35,20 @@ public class TipsFragment extends Fragment {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+    private int lastExpandedPosition = -1;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("lastExpand", lastExpandedPosition);
+        super.onSaveInstanceState(outState);
+    }
+
+
 
     public TipsFragment() {
         // Required empty public constructor
@@ -68,6 +78,9 @@ public class TipsFragment extends Fragment {
         expandableListDetail = ExpandableListDataPump.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(getActivity(), expandableListTitle, expandableListDetail);
+        if (savedInstanceState != null) {
+            lastExpandedPosition = savedInstanceState.getInt("lastExpand");
+        }
     }
 
     @Override
@@ -77,10 +90,18 @@ public class TipsFragment extends Fragment {
 
         expandableListView = getView().findViewById(R.id.expandableListView);
         expandableListView.setAdapter(expandableListAdapter);
+        if (lastExpandedPosition != -1) {
+            expandableListView.expandGroup(lastExpandedPosition);
+        }
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
             @Override
             public void onGroupExpand(int groupPosition) {
+                if (lastExpandedPosition != -1
+                        && groupPosition != lastExpandedPosition) {
+                    expandableListView.collapseGroup(lastExpandedPosition);
+                }
+                lastExpandedPosition = groupPosition;
 //                Toast.makeText(getActivity(),
 //                        expandableListTitle.get(groupPosition) + " List Expanded.",
 //                        Toast.LENGTH_SHORT).show();
