@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import p.l.omnomnom.converter.ConverterFragment;
 import p.l.omnomnom.recipe.RecipeAdapter;
@@ -43,13 +42,13 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_notifications:
-                    //fragment = TipsFragment.newInstance("cos", "costam");
+                    fragment = TipsFragment.newInstance("cos", "costam");
                     loadFragment(fragment);
 
-                    if (fragment != null) {
-                        Snackbar.make(fragment.getView(), "Chwała poległym Studentom. Gabryś, pamiętamy [*]", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
+//                    if (fragment != null) {
+//                        Snackbar.make(fragment.getView(), "Chwała poległym Studentom. Gabryś, pamiętamy [*]", Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                    }
                     return true;
             }
             return false;
